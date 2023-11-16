@@ -4,8 +4,8 @@ from blog.views import blog_view,blog_single
 
 #app_name='website'
 
-urlpatterns = [
+urlpatterns1 = [
     
-    path('blog',blog_view,name='index'),
-    path('blog/single',blog_single,name='single')
+    path('',blog_view,name='index'),
+    path('single',blog_single,name='single')
 ]
