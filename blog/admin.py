@@ -5,6 +5,6 @@ from blog.models import Post
 
 
 class AuthorAdmin(admin.ModelAdmin):
- list_display = [ "title","status","id"]
+ list_display = [ "title","status","id","author"]
  
 admin.site.register(Post,AuthorAdmin)
