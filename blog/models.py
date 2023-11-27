@@ -11,7 +11,7 @@ class Post(models.Model):
     publish_date=models.DateTimeField(null=True)
     status=models.BooleanField(default=False)
     counted_view=models.IntegerField(default=0)
-    image=models.ImageField(upload_to='blog/')
+    image=models.ImageField(upload_to='blog/',default='blog/default.jpg')
     
 
     def __str__(self):
