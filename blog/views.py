@@ -5,16 +5,17 @@ from .models import Post
 
 # Create your views here.
 def blog_view(request):
+     today = timezone.now().date()
      posts=Post.objects.all()
-     filtered_posts=[post for post in posts if post.status==1]
-
+     filtered_posts = Post.objects.filter(publish_date__lte=today, status=True)
      return render(request,'blog/blog-home.html',{'post':filtered_posts} )
 
 def blog_single(request,pid):
        post=get_object_or_404(Post,pk=pid)
        post.counted_view +=1
        post.save()
-       all_posts = Post.objects.order_by('created_date')
+       today = timezone.now().date()
+       all_posts = Post.objects.filter(status=True, publish_date__lte=today).order_by('created_date')
 
     # Find the index of the current post
        current_post_index = list(all_posts).index(post)
