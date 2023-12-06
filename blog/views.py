@@ -4,11 +4,15 @@ from .models import Post
 
 
 # Create your views here.
-def blog_view(request):
+def blog_view(request,cat_name=None):
      today = timezone.now().date()
      posts=Post.objects.all()
-     filtered_posts = Post.objects.filter(publish_date__lte=today, status=True)
-     return render(request,'blog/blog-home.html',{'post':filtered_posts} )
+     posts = Post.objects.filter(publish_date__lte=today, status=True)
+     if cat_name:
+      posts=posts.filter(category__name=cat_name)
+     context={'post':posts}
+     return render(request,'blog/blog-home.html',context )
+
 
 def blog_single(request,pid):
        post=get_object_or_404(Post,pk=pid)
@@ -17,14 +21,14 @@ def blog_single(request,pid):
        today = timezone.now().date()
        all_posts = Post.objects.filter(status=True, publish_date__lte=today).order_by('created_date')
 
-    # Find the index of the current post
+    
        current_post_index = list(all_posts).index(post)
 
-    # Calculate indices for previous and next posts
+    
        previous_index = current_post_index - 1
        next_index = current_post_index + 1
 
-    # Check if there are previous and next posts
+    
        previous_post = all_posts[previous_index] if previous_index >= 0 else None
        next_post = all_posts[next_index] if next_index < len(all_posts) else None
 
@@ -36,6 +40,20 @@ def blog_single(request,pid):
 
 
        return render(request,'blog/blog-single.html',context)
+
+
+
+def blog_category(request,cat_name):
+     today = timezone.now().date()
+     posts=Post.objects.all()
+     posts = Post.objects.filter(publish_date__lte=today, status=True)
+     posts=posts.filter(category__name=cat_name)
+     context={'post':posts}
+     return render(request,'blog/blog-home.html',context )
+
+
+
+
 
 
 
